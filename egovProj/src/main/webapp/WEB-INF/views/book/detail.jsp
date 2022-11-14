@@ -79,7 +79,7 @@
 							<i class="bi bi-clipboard"></i>
 						</span>
 					</div>	
-					<textarea name="content" class="form-control" rows="4" >${bookVO.content}</textarea>
+					<textarea name="content" class="form-control" rows="4" readonly="readonly" >${bookVO.content}</textarea>
 				</div>
 			</div>
 			
@@ -100,6 +100,7 @@
 $(function(){
 	$("#edit").on("click", function(){
 		$(".form-control").removeAttr("readonly");
+		$("textarea").attr("readonly", false);
 		// 수정모드
 		$("#span2").css("display","block");
 		// 일반모드
