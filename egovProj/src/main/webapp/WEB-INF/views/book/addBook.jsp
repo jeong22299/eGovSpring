@@ -64,7 +64,7 @@
 							<i class="bi bi-clipboard"></i>
 						</span>
 					</div>	
-					<textarea id="content" name="content" class="form-control" rows="4"></textarea>
+					<textarea id="content" name="content"></textarea>
 				</div>
 			</div>
 		

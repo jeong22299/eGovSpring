@@ -1,26 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
- 
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="/resources/images/song.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light" style="font-family: Cookierun;">집에 가고싶어</span>
+    <a href="/book/list" class="brand-link">
+      <img src="/resources/images/cf2eae6c-e6be-4686-a173-f0db25741e32_seoy.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light" style="font-family: Cookierun;"> 
+      민정이네 게시판 
+      </span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="/resources/images/cew1.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block" style="font-family: Cookierun;">성민정</a>
-        </div>
-      </div>
-
+      <sec:authorize access="isAnonymous()">
+            	<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+		        <div class="image">
+		          <img src="/resources/images/317fee71-51c9-403b-bd78-b16337c48f2a_cew1.jpg" class="img-circle elevation-2" alt="User Image">
+		        </div>
+		        <div class="info">
+					<a href="#" class="d-block" style="font-family: Cookierun;">성민정</a>
+		        </div>
+			</div>
+      </sec:authorize>
+      <!-- 인증된 사용자인 경우 -->
+		<sec:authorize access="isAuthenticated()" >
+	      	<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+		        <div class="image">
+		          <img src="/resources/images/317fee71-51c9-403b-bd78-b16337c48f2a_cew1.jpg" class="img-circle elevation-2" alt="User Image">
+		        </div>
+		        <div class="info">
+					<a href="#" class="d-block" style="font-family: Cookierun;"><sec:authentication property='principal.memberVO.memName'/>(<sec:authentication property='principal.memberVO.memId'/>)님 환영합니다.</a>
+					<form action="/logout" method="post">
+						<button type="submit" class="btn btn-link" >로그아웃</button>
+						<sec:csrfInput />
+					</form>
+		        </div>
+			</div>
+        </sec:authorize>
       <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
@@ -70,29 +89,54 @@
           <!-- 도서관리 메뉴 시작 -->
          <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+             <i class="bi bi-book-half text-success"></i>
               <p>
                 도서관리
-                <i class="right fas fa-angle-left"></i>
+                <i class="right fas fa-angle-left text-success"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/book/list" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="bi bi-bookmark-star text-success"></i>
                   <p>도서목록</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/book/addBook" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="bi bi-bookmark-star text-success"></i>
                   <p>도서등록</p>
                 </a>
               </li>
             </ul>
           </li>
-          
           <!-- 도서관리 메뉴 끝 -->
+          
+          <!-- 이미지 갤러리 메뉴 시작 -->
+         <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="bi bi-images text-danger"></i>
+              <p>
+                이미지 갤러리
+                <i class="right fas fa-angle-left text-danger"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/gallery/list" class="nav-link">
+                  <i class="nav-icon far fa-image text-danger"></i>
+                  <p>이미지목록</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/gallery/regist" class="nav-link">
+                  <i class="nav-icon far fa-image text-danger"></i>
+                  <p>이미지등록</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- 이미지 갤러리 메뉴 끝 -->
           <li class="nav-item">
             <a href="/resources/adminlte/pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>

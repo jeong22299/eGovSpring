@@ -4,6 +4,16 @@
 <!-- namespace : xml파일은 여러개일 수 있음. 
 이를 구별하기 위한 식별 용도로 사용 -->
 <mapper namespace="kr.or.ddit.mapper.BookMapper">
+
+	<resultMap type="bookVO" id="bookMap">
+		<result property="bookId" column="BOOK_ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="price" column="PRICE"/>
+		<result property="insertDate" column="INSERT_DATE"/>
+		<result property="content" column="CONTENT" 
+						jdbcType="CLOB"  />
+	</resultMap>
 	
 	<!-- 도서 목록 -->
 	<select id="list" resultType="bookVO">
@@ -12,8 +22,14 @@
 	</select>
 	
 	
-	<!-- 도서 상세 -->
-	<select id="detail" parameterType="int" resultType="bookVO" >
+	<!-- 도서 상세
+			CONTENT 컬럼...
+			CLOB 타입의 데이터를 MyBaties를 이용해 처리할 때는 resultMap 태그를 만들고 타입을 지정해줘야 함
+			CLOB타입 -> String 매핑
+			java database connectivity의 type : CLOB
+			java type : java.lang.String
+	 -->
+	<select id="detail" parameterType="int" resultMap="bookMap" >
 		SELECT	BOOK_ID, TITLE, CATEGORY, PRICE, INSERT_DATE, CONTENT
 		FROM 		BOOK
 		WHERE 	BOOK_ID = #{bookId}

@@ -63,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="card-footer" align="right">
-		<a class="btn btn-success" href="/book/addBook">등록</a>
+	<div class="card-footer" align="right"  style="font-family: 메이플스토리;">
+		<a class="btn btn-success" href="/book/addBook" >등록</a>
 	</div>
 </div>

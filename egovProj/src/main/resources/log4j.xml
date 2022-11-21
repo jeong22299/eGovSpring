@@ -13,11 +13,11 @@
 	 <appender name="fileLogger" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="file" value="D:/logs/logs.log"/>
         <param name="Append" value="true"/>
-        <param name="dataPattern" value=".yyyy-MM-dd.log"/>
+        <param name="dataPattern" value="[yyyyMMdd]'.log'" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p: %F:%L - %m%n" />
         </layout>
- </appender>
+	</appender>
 	
 	<!-- Application Loggers -->
 	<logger name="kr.or.ddit">
@@ -57,9 +57,6 @@
 	<root>
 		<priority value="debug" />
 		<appender-ref ref="console" />
-	</root>
-	<root>
-		<priority value="error"/>
 		<appender-ref ref="fileLogger"/>
 	</root>
 	

@@ -55,7 +55,7 @@
 							<i class="bi bi-cash-coin"></i>
 						</span>
 					</div>	
-					<input type="text"  id="fc" class="form-control"  name="price"  id="txtPrice" value="<fmt:formatNumber pattern='#,###'  value='${bookVO.price}'/>"  readonly="readonly">
+					<input type="text"   class="form-control"  name="price"  id="txtPrice" value="<fmt:formatNumber pattern='#,###'  value='${bookVO.price}'/>"  readonly="readonly">
 				</div>
 			</div>
 			
@@ -79,7 +79,7 @@
 							<i class="bi bi-clipboard"></i>
 						</span>
 					</div>	
-					<textarea name="content" class="form-control" rows="4" readonly="readonly" >${bookVO.content}</textarea>
+					<textarea id="content" name="content"  readonly>${bookVO.content}</textarea>
 				</div>
 			</div>
 			
@@ -106,6 +106,8 @@ $(function(){
 		// 일반모드
 		$("#span1").css("display","none");
 		$("#fc").attr("required", true);
+		// 책 내용 처리
+		CKEDITOR.instances['content'].setReadOnly(false);
 		
 		// form action 추가
 		$("#frm").attr("action","/book/update");
