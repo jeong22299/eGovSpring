@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <script type="text/javascript" src="/resources/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/resources/js/jquery-3.6.0.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/resources/sweetalert2/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="/resources/sweetalert2/sweetalert2.min.css">
                   <!-- 
                   1)button
                      data-toggle="modal" data-target="샾modal-lg"
@@ -171,7 +170,12 @@
 // 책 목록 result를 object로써 받을 수 있음
 let bookVOList;
 	$(function() {
-
+		var Toast = Swal.mixin({
+	         toast: true,
+	         position: 'top-end',
+	         showConfirmButton: false,
+	         timer: 3000
+	       });
 		
 		// 이미지 미리보기 시작 ///////////////////////////////////
 		
@@ -232,6 +236,10 @@ let bookVOList;
 			// GalleryController 참고
 			// ATTACH 테이블의 USER_NO 컬럼의 데이터에는 bookId가 들어가야 함
 			// ATTACH 테이블의 SEQ 컬럼의 데이터는 1부터 1씩 자동 증가
+			
+			// 스프링 시큐리티를 위한 토큰처리(csrf)
+			let header = "${_csrf.headerName}";
+			let token = "${_csrf.token}";
 			$.ajax({
 				url:"/gallery/uploadAjaxAction",
 				processData:false,
@@ -239,8 +247,10 @@ let bookVOList;
 				data:formData,
 				dataType:"json",
 				type:"post",
+				beforeSend:function(xhr){
+					xhr.setRequestHeader(header, token);
+				},
 				success:function(result){
-					console.log("result : " + JSON.stringify(result));
 					
 					if(result.status>0){  // 다중 insert 성공!!
 						Toast.fire({

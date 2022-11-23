@@ -42,14 +42,27 @@
 		WHERE	BOOK_ID= #{bookId}
 	</update>
 	
-	<!-- 도서 등록 -->
+	<!-- 도서 등록
+			1) UPDATE => bookVO.bookId => 있음
+						detail.jsp?bookId=1로 리다이렉트 시 parameter값을 이용하기
+			2) INSERT => bookVO.bookId => 없음(null)
+	 -->
 	<insert id="insert" parameterType="bookVO" >
-		<selectKey order="BEFORE"  resultType="int" keyProperty="bookId">
-			SELECT NVL(MAX(BOOK_ID),0) + 1 FROM BOOK
+		<selectKey order="AFTER"  resultType="int"  keyProperty="bookId">
+			SELECT MAX(BOOK_ID) FROM BOOK
 		</selectKey>
-	
-		INSERT INTO BOOK(BOOK_ID, TITLE, CATEGORY, PRICE, INSERT_DATE, CONTENT)
-		VALUES(#{bookId}, #{title},  #{category}, #{price}, SYSDATE, #{content})
+		MERGE INTO BOOK A 
+		USING DUAL ON (A.BOOK_ID = #{bookId})
+		WHEN MATCHED THEN 
+			  UPDATE SET
+      		  TITLE = #{title},
+      		  CATEGORY = #{category}, 
+      		  PRICE = #{price}, 
+      		  INSERT_DATE = SYSDATE, 
+      		  CONTENT = #{content}
+		WHEN NOT MATCHED THEN 
+			INSERT (BOOK_ID, TITLE, CATEGORY, PRICE, INSERT_DATE, CONTENT)
+			VALUES((SELECT NVL(MAX(BOOK_ID),0) + 1 FROM BOOK), #{title},  #{category}, #{price}, SYSDATE, #{content})
 	</insert>
 	
 	

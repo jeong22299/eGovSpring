@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import kr.or.ddit.mapper.BookMapper;
 import kr.or.ddit.service.BookService;
 import kr.or.ddit.vo.BookVO;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class BookServiceImpl implements BookService {
 	
@@ -30,7 +31,13 @@ public class BookServiceImpl implements BookService {
 	//도서 수정
 	@Override
 	public int updateBook(BookVO bookVO) {
-		return this.bookMapper.updateBook(bookVO);
+//		return this.bookMapper.updateBook(bookVO);
+		log.info("before bookVO : " + bookVO);
+		
+		int result = this.bookMapper.insert(bookVO);
+		log.info("after bookVO : " + bookVO);
+		
+		return result;
 	}
 	
 	// 도서 등록

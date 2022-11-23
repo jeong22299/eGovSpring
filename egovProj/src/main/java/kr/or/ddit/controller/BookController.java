@@ -63,11 +63,14 @@ public class BookController {
 	@PostMapping("/update")
 	public String update(BookVO bookVO) {
 		
-		log.info("bookVO : " + bookVO.toString());
+		log.info("before bookVO : " + bookVO.toString());
+		// merge into에 의해 bookId가 변경될 것이므로 미리 bookId를 받아 놓자
 		
-		int result = this.bookservice.updateBook(bookVO);
+		int bookId = bookVO.getBookId();
 		
-		return "redirect:/book/detail?bookId=" + bookVO.getBookId();
+		int result = this.bookservice.insert(bookVO);
+		log.info("after bookVO : " + bookVO.toString());
+		return "redirect:/book/detail?bookId=" + bookId;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

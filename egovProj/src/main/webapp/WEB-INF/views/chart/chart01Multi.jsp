@@ -12,6 +12,7 @@
 		// 로딩이 완료되면 drawChart 함수를 호출해보자
 		google.setOnLoadCallback(drawChart);
 		google.setOnLoadCallback(drawChart2);
+		google.setOnLoadCallback(drawChart3);
 		
 		// responseText : json 데이터를 텍스트로 읽어 들임. console.log로 볼 수 있음
 		function drawChart(){
@@ -58,12 +59,36 @@
 			});
 		}
 		
+		function drawChart3(){
+			let jsonData = $.ajax({
+				url:"/chart/chart02",
+				dataType:"json",
+				async:false
+			}).responseText;
+			
+			console.log("jsonData : " + jsonData);
+			
+			// 데이터 테이블 생성
+			let data = new google.visualization.DataTable(jsonData);
+			// 차트를 출력할 div를 선택(PieChart, LineChart, ColumnChart)
+			let chart = new google.visualization.ColumnChart(document.getElementById("chart_div3"));
+			// 차트객체(chart).draw(데이터테이블(data), 옵션)
+			chart.draw(data,{
+				title :"상품별 매출금액 합계",
+				curveType:"function",   // LineChart에서 선이 곡선으로, 없으면 직선
+				width:800,
+				height:450,
+				colors: ['#e2431e', '#d3362d', '#e7711b', '#e49307', '#e49307', '#b9c246']
+			});
+		}
+		
 		
 	});
 </script>
 
 <div id="chart_div"></div>
 <div id="chart_div2"></div>
+<div id="chart_div3"></div>
 
 
 
